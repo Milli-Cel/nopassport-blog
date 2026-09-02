@@ -6,25 +6,111 @@
   <title>NoPassport — Kenyan Trends, Daily</title>
   <link rel="stylesheet" href="/nopassport-blog/assets/style.css">
   <link rel="alternate" type="application/atom+xml" title="NoPassport Feed" href="/nopassport-blog/feed.xml">
+  <link rel="icon" href="/nopassport-blog/assets/favicon.png" type="image/png">
 </head>
 <body>
-  <header>
-    <h1>NoPassport</h1>
-    <p>Kenyan trends, daily. Stay updated with what Kenya is talking about.</p>
-    <nav>
-      <a href="/nopassport-blog/">Home</a>
-      <a href="https://t.me/nopassportupdates">Telegram</a>
-      <a href="/nopassport-blog/feed.xml">RSS</a>
-    </nav>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span class="logo">NP</span>
+        <div class="brand-text">
+          <h1>NoPassport</h1>
+          <p class="tagline">Kenyan trends, daily. Stay updated with what Kenya is talking about.</p>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <a href="/nopassport-blog/" class="nav-link">Home</a>
+        <a href="/nopassport-blog/feed.xml" class="nav-link">RSS</a>
+        <a href="https://t.me/nopassportupdates" class="nav-link nav-cta" target="_blank" rel="noopener">Telegram</a>
+      </nav>
+    </div>
   </header>
-  <main>
-    <section id="latest">
-      <h2>Latest Updates</h2>
-      <div id="posts"></div>
+
+  <main class="container">
+    <section class="hero">
+      <h2>What's trending in Kenya this week</h2>
+      <p class="hero-sub">Auto-curated from YouTube, TikTok, Instagram, X/Twitter, and Kenyan news sources.</p>
+    </section>
+
+    <section id="latest" class="posts-section">
+      <h3 class="section-title">Latest Updates</h3>
+      <div id="posts" class="posts-grid">
+        <!-- Posts injected by JS from feed.xml -->
+        <noscript><p>Enable JavaScript to view the latest posts, or browse the <a href="/nopassport-blog/feed.xml">RSS feed</a>.</p></noscript>
+      </div>
     </section>
   </main>
-  <footer>
-    <p>Powered by Xafe Trendz automation</p>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>NoPassport</h4>
+          <p>Kenyan trends, daily.</p>
+        </div>
+        <div>
+          <h4>Links</h4>
+          <ul>
+            <li><a href="/nopassport-blog/">Home</a></li>
+            <li><a href="/nopassport-blog/feed.xml">RSS</a></li>
+            <li><a href="https://t.me/nopassportupdates" target="_blank" rel="noopener">Telegram</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Sources</h4>
+          <ul>
+            <li>YouTube: Obinna TV, 2Mbili TV, SPM Buzz, KTN News</li>
+            <li>TikTok: Kenyan creator clips</li>
+            <li>IG: comedy/lifestyle creators</li>
+            <li>News: Ghafla, Pulse Kenya</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>Powered by Xafe Trendz automation</p>
+      </div>
+    </div>
   </footer>
+
+  <script>
+    async function loadPosts() {
+      const container = document.getElementById('posts');
+      try {
+        const res = await fetch('/nopassport-blog/feed.xml');
+        const text = await res.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(text, 'application/xml');
+        const entries = Array.from(xml.querySelectorAll('entry')).slice(0, 20);
+
+        if (!entries.length) {
+          container.innerHTML = '<p class="empty-state">No posts yet.</p>';
+          return;
+        }
+
+        container.innerHTML = entries.map(entry => {
+          const title = entry.querySelector('title')?.textContent?.trim() || 'Untitled';
+          const link = entry.querySelector('link')?.getAttribute('href') || '#';
+          const updated = entry.querySelector('updated')?.textContent?.trim() || '';
+          const summary = entry.querySelector('summary')?.textContent?.trim() || '';
+          const date = updated ? new Date(updated).toLocaleDateString('en-KE', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+
+          return `
+            <article class="post-card">
+              <a href="${link}" class="post-link">
+                <h3 class="post-title">${title}</h3>
+                <div class="post-meta">${date}</div>
+                <p class="post-summary">${summary.replace(/<[^>]*>/g, '').slice(0, 220)}${summary.length > 220 ? '...' : ''}</p>
+                <span class="read-more">Read more →</span>
+              </a>
+            </article>
+          `;
+        }).join('');
+      } catch (e) {
+        container.innerHTML = '<p class="empty-state">Could not load posts right now. Try the <a href="/nopassport-blog/feed.xml">RSS feed</a>.</p>';
+      }
+    }
+
+    loadPosts();
+  </script>
 </body>
 </html>

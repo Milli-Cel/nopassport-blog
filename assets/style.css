@@ -1,10 +1,143 @@
-body { font-family: system-ui, sans-serif; background: #0f0f23; color: #fff; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 2rem; }
-header { border-bottom: 3px solid #ff0055; padding-bottom: 1rem; margin-bottom: 2rem; }
-h1 { margin: 0; font-size: 2rem; color: #ff0055; }
-nav a { color: #ccc; margin-right: 1rem; text-decoration: none; }
-nav a:hover { color: #fff; }
-.post { background: #1a1a2e; padding: 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid #ff0055; border-radius: 8px; }
-.post h2 { margin: 0 0 0.5rem; font-size: 1.4rem; }
-.post .meta { color: #aaa; font-size: 0.85rem; margin-bottom: 1rem; }
-.post .summary { color: #ddd; }
-footer { border-top: 1px solid #333; padding-top: 1rem; margin-top: 3rem; color: #777; font-size: 0.85rem; }
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  background: #0f0f23;
+  color: #e8e8f0;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header */
+.site-header {
+  border-bottom: 1px solid #2a2a3a;
+  background: #13132b;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.logo {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  background: #ff0055;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 10px;
+}
+.brand-text h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  letter-spacing: 0.2px;
+}
+.tagline {
+  margin: 0;
+  color: #a0a0b8;
+  font-size: 0.82rem;
+}
+.main-nav {
+  display: flex;
+  gap: 0.75rem;
+}
+.nav-link {
+  color: #cfcfdc;
+  text-decoration: none;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid #2a2a3a;
+  font-size: 0.9rem;
+}
+.nav-link:hover { color: #fff; border-color: #ff0055; }
+.nav-cta { background: #ff0055; color: #fff; border-color: #ff0055; }
+.nav-cta:hover { background: #e6004c; }
+
+/* Hero */
+.hero {
+  padding: 2.5rem 0 1.25rem;
+}
+.hero h2 { margin: 0 0 0.4rem; font-size: 1.6rem; }
+.hero-sub { margin: 0; color: #b0b0c8; }
+
+/* Posts */
+.posts-section { padding: 1rem 0 3rem; }
+.section-title {
+  font-size: 1.1rem;
+  color: #ff0055;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin: 1.25rem 0 1rem;
+}
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.1rem;
+}
+.post-card {
+  background: #181830;
+  border: 1px solid #252540;
+  border-radius: 12px;
+  padding: 1.1rem;
+  transition: transform 0.08s ease, border-color 0.2s ease;
+}
+.post-card:hover { transform: translateY(-2px); border-color: #ff0055; }
+.post-link { color: inherit; text-decoration: none; }
+.post-title {
+  margin: 0 0 0.4rem;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+.post-meta { color: #9090a8; font-size: 0.8rem; margin-bottom: 0.6rem; }
+.post-summary { color: #d4d4e8; font-size: 0.95rem; margin: 0; }
+.read-more { color: #ff79a6; font-size: 0.85rem; font-weight: 600; display: inline-block; margin-top: 0.7rem; }
+.empty-state { color: #9090a8; }
+
+/* Footer */
+.site-footer {
+  border-top: 1px solid #2a2a3a;
+  background: #13132b;
+  padding: 2rem 0;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+.footer-grid h4 { margin: 0 0 0.5rem; color: #fff; }
+.footer-grid p, .footer-grid li { color: #a0a0b8; font-size: 0.9rem; }
+.footer-grid ul { list-style: none; padding: 0; margin: 0; }
+.footer-grid a { color: #cfcfdc; text-decoration: none; }
+.footer-grid a:hover { color: #ff0055; }
+.footer-bottom {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #222236;
+  color: #77778a;
+  font-size: 0.85rem;
+}
+
+/* Utilities */
+@media (max-width: 640px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .posts-grid { grid-template-columns: 1fr; }
+  .main-nav { gap: 0.5rem; }
+  .nav-link { padding: 0.4rem 0.55rem; font-size: 0.85rem; }
+}
